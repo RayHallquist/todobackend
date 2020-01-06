@@ -6,4 +6,3 @@ class TodoItemSerializer(serializers.HyperlinkedModelSerializer):
   class Meta:
     model = TodoItem
     fields = ('url', 'title', 'completed', 'order')
-

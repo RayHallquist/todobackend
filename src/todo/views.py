@@ -1,5 +1,3 @@
-from django.shortcuts import render
-
 from todo.models import TodoItem
 from todo.serializers import TodoItemSerializer
 from rest_framework import status
@@ -14,7 +12,7 @@ class TodoItemViewSet(viewsets.ModelViewSet):
   serializer_class = TodoItemSerializer
 
   def perform_create(self, serializer):
-    # Save instances to get promary key and then update URL
+    # Save instance to get primary key and then update URL
     instance = serializer.save()
     instance.url = reverse('todoitem-detail', args=[instance.pk], request=self.request)
     instance.save()
@@ -22,5 +20,4 @@ class TodoItemViewSet(viewsets.ModelViewSet):
   # Deletes all todo items
   def delete(self, request):
     TodoItem.objects.all().delete()
-    return Response(status=status.HTTP_204_NO_CONTENT)
-
+    return Response(status=status.HTTP_204_NO_CONTENT) 

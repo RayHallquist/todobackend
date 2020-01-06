@@ -1,5 +1,3 @@
-from django.test import TestCase
-
 from django.core.urlresolvers import reverse
 from rest_framework import status
 from rest_framework.test import APITestCase
@@ -57,8 +55,10 @@ class TestPatchTodoItem(APITestCase):
     url = response['Location']
     data = {'title': 'Walk the dog', 'completed': True}
     self.response = self.client.patch(url, data, format='json')
+
   def test_received_200_ok_status_code(self):
     self.assertEqual(self.response.status_code, status.HTTP_200_OK)
+
   def test_item_was_updated(self):
     self.assertEqual(TodoItem.objects.get().completed, True)
 
@@ -71,8 +71,10 @@ class TestDeleteTodoItem(APITestCase):
     self.assertEqual(TodoItem.objects.count(), 1)
     url = response['Location']
     self.response = self.client.delete(url)
+
   def test_received_204_no_content_status_code(self):
     self.assertEqual(self.response.status_code, status.HTTP_204_NO_CONTENT)
+
   def test_the_item_was_deleted(self):
     self.assertEqual(TodoItem.objects.count(), 0)
 
@@ -85,7 +87,9 @@ class TestDeleteAllItems(APITestCase):
     createItem(self.client)
     self.assertEqual(TodoItem.objects.count(), 2)
     self.response = self.client.delete(reverse('todoitem-list'))
+
   def test_received_204_no_content_status_code(self):
     self.assertEqual(self.response.status_code, status.HTTP_204_NO_CONTENT)
+
   def test_all_items_were_deleted(self):
     self.assertEqual(TodoItem.objects.count(), 0)
